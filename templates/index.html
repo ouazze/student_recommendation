@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Recommendation System</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Student Recommendation System</h1>
+        <form id="recommendationForm">
+            <div class="form-group">
+                <label for="Arabic">Arabic:</label>
+                <input type="number" id="Arabic" name="Arabic" min="0" max="100" required>
+            </div>
+            <div class="form-group">
+                <label for="English">English:</label>
+                <input type="number" id="English" name="English" min="0" max="100" required>
+            </div>
+            <div class="form-group">
+                <label for="French">French:</label>
+                <input type="number" id="French" name="French" min="0" max="100" required>
+            </div>
+            <div class="form-group">
+                <label for="Mathematics">Mathematics:</label>
+                <input type="number" id="Mathematics" name="Mathematics" min="0" max="100" required>
+            </div>
+            <div class="form-group">
+                <label for="Science">Science:</label>
+                <input type="number" id="Science" name="Science" min="0" max="100" required>
+            </div>
+            <div class="form-group">
+                <label for="Religious Studies">Religious Studies:</label>
+                <input type="number" id="ReligiousStudies" name="Religious Studies" min="0" max="100" required>
+            </div>
+            <div class="form-group">
+                <label for="Computer Science">Computer Science:</label>
+                <input type="number" id="ComputerScience" name="Computer Science" min="0" max="100" required>
+            </div>
+            <div class="form-group">
+                <label for="Philosophy">Philosophy:</label>
+                <input type="number" id="Philosophy" name="Philosophy" min="0" max="100" required>
+            </div>
+            <div class="form-group">
+                <label for="Art">Art:</label>
+                <input type="number" id="Art" name="Art" min="0" max="100" required>
+            </div>
+            <div class="form-group">
+                <label for="Social Studies">Social Studies:</label>
+                <input type="number" id="SocialStudies" name="Social Studies" min="0" max="100" required>
+            </div>
+            <button type="submit">Get Recommendation</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script>
+        document.getElementById("recommendationForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            fetch("/predict", {
+                method: "POST",
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById("result").innerText = "Error: " + data.error;
+                } else {
+                    document.getElementById("result").innerText = "Recommendation: " + data.recommendation;
+                }
+            })
+            .catch(error => {
+                document.getElementById("result").innerText = "Error: " + error;
+            });
+        });
+    </script>
+</body>
+</html>
